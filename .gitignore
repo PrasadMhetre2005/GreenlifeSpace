@@ -6,3 +6,5 @@ backend/target
 .env.local
 .DS_Store
 *.log
+
+.vercel

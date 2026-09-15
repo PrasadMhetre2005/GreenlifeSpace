@@ -16,7 +16,7 @@ The admin dashboard is available at `/admin/requests`. The existing `/admin/show
 6. Choose a visit status and write the admin response, solution, or care suggestion.
 7. Select **Save response**. The update is stored in `service_requests.internal_notes` and the status is saved in the database.
 
-The key is sent as `X-Admin-Key` only to protected admin API requests and is kept in browser session storage until sign out or the session ends.
+The key is sent only to `POST /api/admin/login`. The API returns a short-lived bearer token, which is kept in browser session storage until sign out, expiry, or the session ends.
 
 ## Database fallback
 
@@ -101,7 +101,7 @@ WHERE id = '$requestId';
 
 ## Admin authentication
 
-The backend uses the `X-Admin-Key` header for protected routes under `/api/admin/**`.
+The backend uses a short-lived `Authorization: Bearer ...` token for protected routes under `/api/admin/**`.
 
 Set a strong key before starting the API:
 
@@ -113,12 +113,18 @@ The default value `change-me-in-production` must not be used outside local devel
 
 ## Admin API flow
 
+The dashboard first calls `POST /api/admin/login` with `{ "adminKey": "..." }`.
+The response contains `{ "token": "..." }`. The dashboard then sends that
+token as an `Authorization: Bearer ...` header.
+
 The dashboard uses these protected endpoints:
 
 - `GET /api/admin/service-requests` lists requests newest first.
 - `PATCH /api/admin/service-requests/{id}` updates the status and internal response/care plan.
 
-Both require the `X-Admin-Key` header. The browser must also be allowed by `CORS_ALLOWED_ORIGINS` on the backend.
+The login endpoint validates the configured admin key. The list and update
+endpoints require the bearer token. The browser origin must also be allowed by
+`CORS_ALLOWED_ORIGINS` on the backend.
 
 ## Safety checklist
 

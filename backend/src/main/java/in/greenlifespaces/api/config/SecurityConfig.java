@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/actuator/health", "/api/offers", "/api/showcase", "/api/service-requests", "/api/inquiries").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/admin/login").permitAll()
                         .requestMatchers("/api/admin/**").authenticated()
                         .anyRequest().denyAll())
                 .addFilterBefore(adminKeyFilter, UsernamePasswordAuthenticationFilter.class)

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { getJSON, patchJSON } from "@/lib/api";
+import { getJSON, loginAdmin, patchJSON } from "@/lib/api";
 
 type RequestStatus = "pending" | "confirmed" | "in_progress" | "completed" | "cancelled";
 
@@ -22,10 +22,11 @@ type ServiceRequest = {
 };
 
 const statuses: RequestStatus[] = ["pending", "confirmed", "in_progress", "completed", "cancelled"];
-const keyStorage = "greenlife-admin-key";
+const tokenStorage = "greenlife-admin-token";
 
 export default function AdminRequestsDashboard() {
   const [adminKey, setAdminKey] = useState("");
+  const [adminToken, setAdminToken] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [requests, setRequests] = useState<ServiceRequest[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -40,19 +41,19 @@ export default function AdminRequestsDashboard() {
       const data = await getJSON<ServiceRequest[]>("/api/admin/service-requests", key);
       setRequests(data);
       setAuthenticated(true);
-      sessionStorage.setItem(keyStorage, key);
+      sessionStorage.setItem(tokenStorage, key);
+      setAdminToken(key);
       setSelectedId((current) => current ?? data[0]?.id ?? null);
     } catch {
       setAuthenticated(false);
       setLoginError("Access denied. Check the admin key and try again.");
-      sessionStorage.removeItem(keyStorage);
+      sessionStorage.removeItem(tokenStorage);
     }
   }
 
   useEffect(() => {
-    const storedKey = sessionStorage.getItem(keyStorage);
+    const storedKey = sessionStorage.getItem(tokenStorage);
     if (storedKey) {
-      setAdminKey(storedKey);
       void loadRequests(storedKey);
     }
   }, []);
@@ -69,12 +70,15 @@ export default function AdminRequestsDashboard() {
   function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoginError("");
-    void loadRequests(adminKey.trim());
+    void loginAdmin(adminKey.trim())
+      .then(({ token }) => loadRequests(token))
+      .catch(() => setLoginError("Access denied. Check the admin key and try again."));
   }
 
   function signOut() {
-    sessionStorage.removeItem(keyStorage);
+    sessionStorage.removeItem(tokenStorage);
     setAdminKey("");
+    setAdminToken("");
     setAuthenticated(false);
     setRequests([]);
     setSelectedId(null);
@@ -90,7 +94,7 @@ export default function AdminRequestsDashboard() {
       const updated = await patchJSON<ServiceRequest>(`/api/admin/service-requests/${selected.id}`, {
         status: form.get("status"),
         internalNotes: form.get("internalNotes"),
-      }, adminKey);
+        }, adminToken);
       setRequests((current) => current.map((request) => request.id === updated.id ? updated : request));
     } catch {
       setError("The request could not be updated. Please sign in again if the key expired.");
