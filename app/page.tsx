@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
@@ -6,41 +8,42 @@ import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import { Testimonial, StatBlock } from "@/components/Testimonial";
 import { services, testimonials, stats, projects } from "@/lib/data";
 import glassDecorationView from "../photos/glass decoration veiw.jpg";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Home() {
+  const { dictionary } = useLanguage();
+
   return (
     <>
       {/* Hero */}
       <section className="soft-grid container-page grid gap-10 pb-16 pt-14 sm:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-24 lg:pt-24">
         <div className="fade-up flex flex-col justify-center lg:col-span-7">
-          <p className="specimen-tag">Plant care & decoration, Pune & Mumbai</p>
+          <p className="specimen-tag">{dictionary.heroTag}</p>
           <h1 className="mt-5 max-w-xl font-serif text-4xl leading-[0.96] tracking-[-0.04em] text-ink sm:text-5xl lg:text-[5rem]">
-            Green spaces that <span className="italic text-moss">stay</span> green
+            {dictionary.heroTitle}
           </h1>
           <p className="mt-6 max-w-[46ch] text-[17px] leading-relaxed text-ink/70">
-            We style, water, feed and prune the plants in your home, office
-            or venue — on a schedule you never have to think about. Request
-            a visit in under a minute, no account required.
+            {dictionary.heroDescription}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
               href="/request-service"
               className="rounded-sm bg-moss px-6 py-3 text-[15px] font-medium text-greige shadow-[0_18px_30px_rgba(44,74,59,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-moss-dark"
             >
-              Request a service visit
+              {dictionary.requestService}
             </Link>
             <Link
               href="/services"
               className="text-[15px] font-medium text-ink underline decoration-ochre decoration-2 underline-offset-4 transition-colors hover:text-moss-dark"
             >
-              See what we do
+              {dictionary.seeWhatWeDo}
             </Link>
           </div>
 
           <div className="mt-9 flex flex-wrap gap-2 text-xs text-ink/60">
-            <span className="border border-moss/20 bg-white/55 px-3 py-1.5 backdrop-blur-sm">Homes</span>
-            <span className="border border-moss/20 bg-white/55 px-3 py-1.5 backdrop-blur-sm">Offices</span>
-            <span className="border border-moss/20 bg-white/55 px-3 py-1.5 backdrop-blur-sm">Hotels & events</span>
+            <span className="border border-moss/20 bg-white/55 px-3 py-1.5 backdrop-blur-sm">{dictionary.homes}</span>
+            <span className="border border-moss/20 bg-white/55 px-3 py-1.5 backdrop-blur-sm">{dictionary.offices}</span>
+            <span className="border border-moss/20 bg-white/55 px-3 py-1.5 backdrop-blur-sm">{dictionary.hotelsEvents}</span>
           </div>
 
           <div className="mt-16 grid grid-cols-3 gap-6 border-t border-moss/15 pt-8">
@@ -61,9 +64,9 @@ export default function Home() {
               playsInline
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#11231b]/90 via-[#11231b]/35 to-transparent p-5 backdrop-blur-[1px]">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-greige/80">Office reception</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-greige/80">{dictionary.officeReception}</p>
               <p className="mt-2 max-w-sm font-serif text-xl text-white">
-                Styled with trailing pothos &amp; fiddle-leaf fig
+                {dictionary.heroCaption}
               </p>
             </div>
           </div>
@@ -80,9 +83,9 @@ export default function Home() {
       <section className="bg-sage/40 py-16 lg:py-24">
         <div className="container-page">
           <SectionHeading
-            eyebrow="What we do"
-            title="Six ways we keep a space green"
-            intro="From a single styled corner to a full building program, every service is booked the same simple way."
+            eyebrow={dictionary.whatWeDo}
+            title={dictionary.sixWays}
+            intro={dictionary.servicesIntro}
           />
           <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
@@ -97,14 +100,14 @@ export default function Home() {
         <div className="container-page">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <SectionHeading
-              eyebrow="Recent work"
-              title="A few spaces we look after"
+              eyebrow={dictionary.recentWork}
+              title={dictionary.spacesCare}
             />
             <Link
               href="/our-work"
               className="text-sm text-moss underline decoration-ochre decoration-2 underline-offset-4"
             >
-              View all work
+              {dictionary.viewAllWork}
             </Link>
           </div>
           <div className="mt-10 grid gap-10 sm:grid-cols-3">
@@ -131,8 +134,8 @@ export default function Home() {
       <section className="bg-[#1d352d] py-16 text-greige lg:py-24">
         <div className="container-page">
           <SectionHeading
-            eyebrow="What customers say"
-            title="Trusted by homes and businesses across the city"
+            eyebrow={dictionary.customersSay}
+            title={dictionary.trusted}
             light
           />
           <div className="mt-12 grid gap-12 sm:grid-cols-3">
@@ -148,17 +151,17 @@ export default function Home() {
         <div className="container-page flex flex-col items-start gap-6 border-t border-moss/15 pt-14 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="font-serif text-3xl text-ink sm:text-4xl">
-              Ready for a healthier space?
+              {dictionary.ready}
             </h2>
             <p className="mt-2 text-ink/70">
-              Tell us what you need — we&apos;ll confirm a visit, usually the same day.
+              {dictionary.readyDescription}
             </p>
           </div>
           <Link
             href="/request-service"
             className="whitespace-nowrap rounded-sm bg-moss px-6 py-3 text-[15px] text-greige transition-colors hover:bg-moss-dark"
           >
-            Request a service visit
+            {dictionary.requestService}
           </Link>
         </div>
       </section>
