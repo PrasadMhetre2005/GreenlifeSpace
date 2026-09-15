@@ -24,8 +24,8 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 border-b border-moss/10 bg-greige/95 backdrop-blur">
       <div className="container-page flex h-20 items-center justify-between gap-4">
         <Link href="/" className="flex items-baseline gap-2">
-          <span className="font-serif text-2xl italic text-moss-dark">Greenlife</span>
-          <span className="font-serif text-2xl text-moss-dark">Spaces</span>
+          <span className="font-serif text-2xl italic text-moss-dark max-[380px]:text-xl">Greenlife</span>
+          <span className="font-serif text-2xl text-moss-dark max-[380px]:text-xl">Spaces</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -60,7 +60,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="flex flex-col gap-1.5 md:hidden"
+          className="flex min-h-11 min-w-11 items-center justify-center gap-1.5 md:hidden"
           aria-label="Toggle menu"
           aria-expanded={open}
           onClick={() => setOpen(!open)}

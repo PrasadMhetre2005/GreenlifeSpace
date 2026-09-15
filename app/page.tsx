@@ -19,7 +19,7 @@ export default function Home() {
       <section className="soft-grid container-page grid gap-10 pb-16 pt-14 sm:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-24 lg:pt-24">
         <div className="fade-up flex flex-col justify-center lg:col-span-7">
           <p className="specimen-tag">{dictionary.heroTag}</p>
-          <h1 className="mt-5 max-w-xl font-serif text-4xl leading-[0.96] tracking-[-0.04em] text-ink sm:text-5xl lg:text-[5rem]">
+          <h1 className="mt-5 max-w-xl break-words font-serif text-4xl leading-[0.96] tracking-[-0.04em] text-ink sm:text-5xl lg:text-[5rem]">
             {dictionary.heroTitle}
           </h1>
           <p className="mt-6 max-w-[46ch] text-[17px] leading-relaxed text-ink/70">
