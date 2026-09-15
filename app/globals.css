@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-greige text-ink antialiased;
+  }
+  ::selection {
+    @apply bg-ochre/30;
+  }
+  :focus-visible {
+    outline: 2px solid #2c4a3b;
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* A small hand-set specimen label, like a plant tag — used instead of
+     bordered "card kit" containers. */
+  .specimen-tag {
+    @apply inline-flex items-center gap-2 text-sm text-moss-dark;
+  }
+  .specimen-tag::before {
+    content: "";
+    @apply inline-block h-px w-6 bg-ochre;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10;
+  }
+
+  /* Organic clipped image mask for hero / feature photography, in place of
+     uniform rounded rectangles. */
+  .clip-leaf {
+    clip-path: polygon(
+      12% 0%, 88% 4%, 100% 38%, 96% 82%, 68% 100%, 22% 96%, 0% 66%, 4% 22%
+    );
+  }
+  .clip-leaf-alt {
+    clip-path: polygon(
+      6% 14%, 76% 0%, 100% 24%, 94% 78%, 62% 100%, 14% 92%, 0% 50%
+    );
+  }
+
+  /* Shared form field style used by the service-request and inquiry forms */
+  .input {
+    @apply w-full border border-moss/25 bg-white/60 px-3.5 py-2.5 text-[15px] text-ink
+      placeholder:text-ink/40 focus:border-moss focus:bg-white focus:outline-none;
+  }
+
+  .soft-grid {
+    background-image: linear-gradient(to right, rgba(44, 74, 59, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(44, 74, 59, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .fade-up {
+    animation: fade-up 700ms ease-out both;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

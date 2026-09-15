@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+backend/bin
+backend/target
+.env.local
+.DS_Store
+*.log
