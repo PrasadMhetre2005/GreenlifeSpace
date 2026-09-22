@@ -3,6 +3,7 @@ import type { StaticImageData } from "next/image";
 import glassDecorationView from "../photos/glass decoration veiw.jpg";
 import plantCareBoyImage from "../photos/plant care boy pic.jpg";
 import waterThowingImage from "../photos/water thwoing.jpg";
+import threeWallPlant from "../photos/three wall plant.jpg";
 
 export type Service = {
   slug: string;
@@ -106,7 +107,7 @@ export const projects: Project[] = [
     duration: "6 months",
     summary:
       "Hanging planters and a living wall panel for a café that wanted its indoor seating to feel like an extension of its garden seating.",
-    image: plantCareBoyImage,
+    image: threeWallPlant,
     tone: "sage",
   },
   {

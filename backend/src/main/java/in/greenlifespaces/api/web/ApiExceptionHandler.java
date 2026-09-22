@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -21,6 +22,17 @@ public class ApiExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     ResponseEntity<ApiError> notFound(NotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiError("NOT_FOUND", exception.getMessage(), Map.of()));
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    ResponseEntity<ApiError> responseStatus(ResponseStatusException exception) {
+        HttpStatus status = HttpStatus.resolve(exception.getStatusCode().value());
+        HttpStatus responseStatus = status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status;
+        String code = responseStatus == HttpStatus.UNAUTHORIZED ? "UNAUTHORIZED" : "REQUEST_FAILED";
+        String message = responseStatus == HttpStatus.UNAUTHORIZED
+                ? "Admin authentication required."
+                : "The request could not be completed.";
+        return ResponseEntity.status(responseStatus).body(new ApiError(code, message, Map.of()));
     }
 
     @ExceptionHandler(Exception.class)

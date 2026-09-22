@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const whatsappUrl =
   "https://wa.me/918975324280?text=" +
-  encodeURIComponent("Hello Greenlife Spaces, I have a question about your plant care services.");
+  encodeURIComponent("Hello Greenlife Spaces, I would like to know more about your services.");
 
 export default function ContactPage() {
   return (

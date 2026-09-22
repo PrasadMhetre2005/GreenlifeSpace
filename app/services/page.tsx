@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import SectionHeading from "@/components/SectionHeading";
 import { services } from "@/lib/data";
@@ -10,14 +11,24 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="container-page py-16 lg:py-24">
-      <SectionHeading
-        eyebrow="Services"
-        title="Every way we work with plants"
-        intro="Each visit is booked the same simple way — pick a service, share your address and a preferred time, and we confirm the rest."
+    <main className="relative isolate overflow-hidden py-16 lg:py-24">
+      <Image
+        src="/img1.jpg"
+        alt="A bright garden filled with colorful plants"
+        fill
+        priority
+        sizes="100vw"
+        className="-z-20 object-cover opacity-45 saturate-[1.2] contrast-[1.05]"
       />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(244,242,231,0.8),rgba(232,228,214,0.9))]" />
+      <div className="container-page relative z-10">
+        <SectionHeading
+          eyebrow="Services"
+          title="Every way we work with plants"
+          intro="Each visit is booked the same simple way — pick a service, share your address and a preferred time, and we confirm the rest."
+        />
 
-      <div className="mt-14 grid gap-5">
+        <div className="mt-14 grid gap-5">
         {services.map((service, i) => (
           <div
             key={service.slug}
@@ -48,7 +59,8 @@ export default function ServicesPage() {
             </div>
           </div>
         ))}
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

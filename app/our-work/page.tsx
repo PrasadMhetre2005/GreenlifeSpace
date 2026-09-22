@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import SectionHeading from "@/components/SectionHeading";
 import ShowcaseGallery from "@/components/ShowcaseGallery";
 import glassDecorationView from "../../photos/glass decoration veiw.jpg";
-import plantCareBoyImage from "../../photos/plant care boy pic.jpg";
+import plantCareGirlImage from "../../photos/plant care girl.jpeg";
 import waterThowingImage from "../../photos/water thwoing.jpg";
 
 export const metadata: Metadata = {
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 const gallerySettings: { label: string; image: any }[] = [
   { label: "office reception", image: glassDecorationView },
   { label: "hotel lobby", image: waterThowingImage },
-  { label: "home living room", image: plantCareBoyImage },
+  { label: "home living room", image: plantCareGirlImage },
   { label: "café seating", image: glassDecorationView },
   { label: "coworking desk pods", image: waterThowingImage },
-  { label: "event backdrop", image: plantCareBoyImage },
+  { label: "event backdrop", image: plantCareGirlImage },
 ];
 
 export default function OurWorkPage() {

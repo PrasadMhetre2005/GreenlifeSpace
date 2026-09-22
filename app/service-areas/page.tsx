@@ -5,7 +5,7 @@ import { serviceAreas } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Service Areas | Greenlife Spaces",
-  description: "Localities we currently serve in Pune and Mumbai.",
+  description: "Localities we currently serve in Pune.",
 };
 
 export default function ServiceAreasPage() {
