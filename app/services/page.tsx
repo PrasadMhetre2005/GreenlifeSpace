@@ -13,14 +13,14 @@ export default function ServicesPage() {
   return (
     <main className="relative isolate overflow-hidden py-16 lg:py-24">
       <Image
-        src="/img1.jpg"
-        alt="A bright garden filled with colorful plants"
+        src="/img2.jpg"
+        alt="Colorful garden plants in a lively green space"
         fill
         priority
         sizes="100vw"
-        className="-z-20 object-cover opacity-45 saturate-[1.2] contrast-[1.05]"
+        className="-z-20 object-cover opacity-90 saturate-[1.2] contrast-[1.08]"
       />
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(244,242,231,0.8),rgba(232,228,214,0.9))]" />
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(244,242,231,0.3),rgba(232,228,214,0.48))]" />
       <div className="container-page relative z-10">
         <SectionHeading
           eyebrow="Services"

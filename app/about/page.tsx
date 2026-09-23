@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
-import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import { StatBlock } from "@/components/Testimonial";
 import { stats } from "@/lib/data";
 
@@ -43,11 +43,17 @@ export default function AboutPage() {
         </div>
 
         <div className="lg:col-span-6">
-          <PhotoPlaceholder
-            label="the Greenlife Spaces team on a maintenance visit"
-            tone="sage"
-            className="aspect-[4/5] w-full"
-          />
+          <div className="overflow-hidden rounded-[2rem] border border-moss/15 bg-sage/20 shadow-[0_24px_55px_rgba(28,47,38,0.14)]">
+            <Image
+              src="/img1.jpg"
+              alt="The Greenlife Spaces team on a maintenance visit"
+              width={768}
+              height={960}
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="block aspect-[4/5] w-full object-cover saturate-[1.12] contrast-[1.04]"
+            />
+          </div>
         </div>
       </div>
 
