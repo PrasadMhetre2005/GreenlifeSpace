@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const whatsappUrl =
-  "https://wa.me/918975324280?text=" +
+  "https://wa.me/918830539463?text=" +
   encodeURIComponent("Hello Greenlife Spaces, I would like to know more about your services.");
 
 export default function ContactPage() {

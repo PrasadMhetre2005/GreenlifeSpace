@@ -33,8 +33,8 @@ export default function Footer() {
           <ul className="mt-3 space-y-2 text-sm text-greige/80">
             <li><Link href="/contact">{dictionary.sendInquiry}</Link></li>
             <li><Link href="/request-service">{dictionary.requestService}</Link></li>
-            <li>hello@greenlifespaces.in</li>
-            <li>+91 8975324280</li>
+            <li> greenlifespaces143@gmail.com</li>
+            <li>+91 8830539463</li>
           </ul>
         </div>
 
