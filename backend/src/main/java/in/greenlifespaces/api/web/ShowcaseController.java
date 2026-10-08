@@ -41,6 +41,13 @@ public class ShowcaseController {
         project.publish(); return ProjectResponse.from(projects.save(project));
     }
 
+    @DeleteMapping("/api/admin/showcase/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
+    public void delete(@PathVariable UUID id) {
+        projects.deleteById(id);
+    }
+
     record CreateProject(@NotBlank @Size(max = 180) String clientName, @NotBlank @Size(max = 180) String location, @NotBlank @Size(max = 120) String duration, @NotBlank @Size(max = 5000) String summary, @NotBlank @Pattern(regexp = "moss|sage|ochre") String visualTone, @NotEmpty @Size(max = 10) List<@NotBlank @Size(max = 80) String> services) {}
     record ProjectResponse(UUID id, String clientName, String location, String duration, String summary, String visualTone, String status, List<String> services) {
         static ProjectResponse from(ShowcaseProject p) { return new ProjectResponse(p.getId(), p.getClientName(), p.getLocation(), p.getDuration(), p.getSummary(), p.getVisualTone(), p.getStatus(), p.getOffers().stream().map(offer -> offer.getSlug()).sorted().toList()); }

@@ -16,3 +16,29 @@ ON CONFLICT (slug) DO UPDATE SET
   starting_price_inr = EXCLUDED.starting_price_inr,
   display_order = EXCLUDED.display_order,
   updated_at = NOW();
+
+INSERT INTO showcase_projects (id, client_name, location, duration, summary, visual_tone, status, published_at)
+VALUES
+  ('00000000-0000-4000-8000-000000000001', 'Meridian Coworks', 'Baner, Pune', 'Ongoing since 2023', 'A 40-plant program across three floors of a coworking space, with a fortnightly maintenance visit and a full leaf-polish before every member event.', 'moss', 'published', NOW()),
+  ('00000000-0000-4000-8000-000000000002', 'The Ivy Room Cafe', 'Koregaon Park, Pune', '6 months', 'Hanging planters and a living wall panel for a cafe that wanted its indoor seating to feel like an extension of its garden seating.', 'sage', 'published', NOW()),
+  ('00000000-0000-4000-8000-000000000003', 'Solstice Hotel', 'Viman Nagar, Pune', 'Recurring seasonal', 'Lobby and banquet-hall displays refreshed each season, plus one-off styling for weddings hosted at the property.', 'ochre', 'published', NOW())
+ON CONFLICT (id) DO UPDATE SET
+  client_name = EXCLUDED.client_name,
+  location = EXCLUDED.location,
+  duration = EXCLUDED.duration,
+  summary = EXCLUDED.summary,
+  visual_tone = EXCLUDED.visual_tone,
+  status = EXCLUDED.status,
+  published_at = EXCLUDED.published_at;
+
+INSERT INTO showcase_project_offers (project_id, offer_id)
+SELECT links.project_id, offers.id
+FROM (VALUES
+  ('00000000-0000-4000-8000-000000000001'::UUID, 'office-greening'),
+  ('00000000-0000-4000-8000-000000000001'::UUID, 'plant-maintenance'),
+  ('00000000-0000-4000-8000-000000000002'::UUID, 'plant-styling'),
+  ('00000000-0000-4000-8000-000000000002'::UUID, 'plant-maintenance'),
+  ('00000000-0000-4000-8000-000000000003'::UUID, 'event-styling')
+) AS links(project_id, slug)
+JOIN offers ON offers.slug = links.slug
+ON CONFLICT (project_id, offer_id) DO NOTHING;

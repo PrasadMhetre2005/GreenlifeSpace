@@ -13,6 +13,7 @@ export default function ShowcaseAdminPage() {
         <p className="specimen-tag">Team workspace</p>
         <h1 className="mt-4 font-serif text-4xl text-ink sm:text-5xl">Keep the showcase fresh</h1>
         <p className="mt-5 text-[17px] leading-relaxed text-ink/70">Add completed work in a few fields and it will appear on the public Our Work page immediately in this browser.</p>
+        <p className="mt-5 text-[17px] leading-relaxed text-ink/70">Add completed work and publish it to the Greenlife Spaces project database.</p>
       </div>
       <div className="mt-14"><ShowcaseAdminForm /></div>
     </div>

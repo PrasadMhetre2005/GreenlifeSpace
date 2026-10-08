@@ -2,18 +2,42 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { projects, type Project } from "@/lib/data";
+import { getJSON } from "@/lib/api";
+import type { Project } from "@/lib/data";
 import glassDecorationView from "../photos/glass decoration veiw.jpg";
 
-export const SHOWCASE_STORAGE_KEY = "greenlife-showcase-projects";
+type ShowcaseRecord = {
+  id: string;
+  clientName: string;
+  location: string;
+  duration: string;
+  summary: string;
+  visualTone: Project["tone"];
+  services: string[];
+};
+
+function formatService(slug: string) {
+  return slug.split("-").map((word) => word[0].toUpperCase() + word.slice(1)).join(" ");
+}
 
 export default function ShowcaseGallery() {
-  const [items, setItems] = useState<Project[]>(projects);
+  const [items, setItems] = useState<Project[]>([]);
   const [filter, setFilter] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const saved = window.localStorage.getItem(SHOWCASE_STORAGE_KEY);
-    if (saved) setItems(JSON.parse(saved));
+    getJSON<ShowcaseRecord[]>("/api/showcase")
+      .then((records) => setItems(records.map((record) => ({
+        client: record.clientName,
+        location: record.location,
+        duration: record.duration,
+        summary: record.summary,
+        servicesPerformed: record.services.map(formatService),
+        tone: record.visualTone,
+      }))))
+      .catch(() => setError("The showcase could not be loaded. Please try again later."))
+      .finally(() => setLoading(false));
   }, []);
 
   const filters = ["All", ...Array.from(new Set(items.flatMap((item) => item.servicesPerformed)))];
@@ -29,6 +53,9 @@ export default function ShowcaseGallery() {
         ))}
       </div>
       <div className="mt-8 grid gap-12 sm:grid-cols-3">
+        {loading && <p className="text-sm text-ink/60">Loading projects...</p>}
+        {!loading && error && <p role="alert" className="text-sm text-red-700">{error}</p>}
+        {!loading && !error && visible.length === 0 && <p className="text-sm text-ink/60">No published projects yet.</p>}
         {visible.map((project) => (
           <article key={`${project.client}-${project.location}`}>
             <div className="overflow-hidden rounded-2xl border border-moss/10 bg-sage/10">

@@ -2,17 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { getJSON } from "@/lib/api";
 import SectionHeading from "@/components/SectionHeading";
 import ServiceCard from "@/components/ServiceCard";
 import PhotoPlaceholder from "@/components/PhotoPlaceholder";
 import { Testimonial, StatBlock } from "@/components/Testimonial";
-import { services, testimonials, stats, projects } from "@/lib/data";
+import { services, testimonials, stats } from "@/lib/data";
 import glassDecorationView from "../photos/glass decoration veiw.jpg";
 import plantCareGirl from "../photos/plant care girl.jpeg";
 import { useLanguage } from "@/components/LanguageProvider";
 
+type ShowcasePreview = {
+  id: string;
+  clientName: string;
+  location: string;
+  duration: string;
+};
+
 export default function Home() {
   const { dictionary } = useLanguage();
+  const [projects, setProjects] = useState<ShowcasePreview[]>([]);
+
+  useEffect(() => {
+    getJSON<ShowcasePreview[]>("/api/showcase").then(setProjects).catch(() => setProjects([]));
+  }, []);
 
   return (
     <>
@@ -136,15 +150,15 @@ export default function Home() {
           </div>
           <div className="mt-10 grid gap-10 sm:grid-cols-3">
             {projects.map((p) => (
-              <div key={p.client}>
+              <div key={p.id}>
                 <div className="overflow-hidden rounded-2xl border border-moss/10 bg-sage/10">
                   <Image
-                    src={p.image ?? glassDecorationView}
-                    alt={`${p.client} project in ${p.location}`}
+                    src={glassDecorationView}
+                    alt={`${p.clientName} project in ${p.location}`}
                     className="aspect-[3/4] h-full w-full object-cover"
                   />
                 </div>
-                <p className="mt-4 font-serif text-lg text-ink">{p.client}</p>
+                <p className="mt-4 font-serif text-lg text-ink">{p.clientName}</p>
                 <p className="text-sm text-ink/60">
                   {p.location} — {p.duration}
                 </p>

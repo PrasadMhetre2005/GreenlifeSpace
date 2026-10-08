@@ -24,6 +24,7 @@ public class InquiryController {
         var saved = inquiries.save(inquiry);
         return new CreatedResponse(saved.getId(), saved.getStatus(), saved.getCreatedAt());
     }
+
     private static String normalize(String value) { return value == null || value.isBlank() ? null : value.trim(); }
     public record CreateRequest(@NotBlank @Size(max = 160) String name, @NotBlank @Pattern(regexp = "^[+0-9 ()-]{7,40}$", message = "Enter a valid phone number") String phone, @Email @Size(max = 255) String email, @NotBlank @Size(max = 200) String subject, @NotBlank @Size(max = 5000) String message) {}
     public record CreatedResponse(UUID id, String status, java.time.OffsetDateTime createdAt) {}

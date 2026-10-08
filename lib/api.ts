@@ -20,11 +20,16 @@ async function requestJSON<T>(path: string, options: RequestInit = {}): Promise<
     throw new Error(message || `Request failed with status ${res.status}`);
   }
 
+  if (res.status === 204) return undefined as T;
   return res.json() as Promise<T>;
 }
 
-export function postJSON<T>(path: string, body: unknown): Promise<T> {
-  return requestJSON<T>(path, { method: "POST", body: JSON.stringify(body) });
+export function postJSON<T>(path: string, body: unknown, adminKey?: string): Promise<T> {
+  return requestJSON<T>(path, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers: adminKey ? { Authorization: `Bearer ${adminKey}` } : undefined,
+  });
 }
 
 export function getJSON<T>(path: string, adminKey?: string): Promise<T> {
@@ -38,6 +43,13 @@ export function patchJSON<T>(path: string, body: unknown, adminKey?: string): Pr
   return requestJSON<T>(path, {
     method: "PATCH",
     body: JSON.stringify(body),
+    headers: adminKey ? { Authorization: `Bearer ${adminKey}` } : undefined,
+  });
+}
+
+export function deleteJSON(path: string, adminKey?: string): Promise<void> {
+  return requestJSON<void>(path, {
+    method: "DELETE",
     headers: adminKey ? { Authorization: `Bearer ${adminKey}` } : undefined,
   });
 }
