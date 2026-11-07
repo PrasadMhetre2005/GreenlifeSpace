@@ -13,8 +13,11 @@ $env:ADMIN_API_KEY = "a-long-local-admin-key"
 mvn spring-boot:run
 ```
 
-The API starts on `http://localhost:8080` by default. If port 8080 is already
-in use, start it on another port:
+`ADMIN_API_KEY` is required; the API does not provide a default admin
+credential. Set `DATABASE_PASSWORD` to the password for your local PostgreSQL
+user.
+
+The API starts on `http://localhost:8081` by default. Set `PORT` to override it:
 
 ```powershell
 $env:PORT = "8081"
@@ -37,7 +40,8 @@ $baseUrl = "http://localhost:8081"
 
 ## Protected admin endpoints
 
-Send `X-Admin-Key` with the configured `ADMIN_API_KEY`:
+Exchange the configured `ADMIN_API_KEY` for a short-lived bearer token with
+`POST /api/admin/login` and send that token as `Authorization: Bearer <token>`:
 
 - `POST /api/admin/showcase`
 - `PATCH /api/admin/showcase/{id}/publish`

@@ -40,7 +40,7 @@ Forms POST JSON to the Spring Boot API via `lib/api.ts`:
 Set the backend URL in `.env.local` (copy `.env.local.example`):
 
 ```
-NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_URL=http://localhost:8081
 ```
 
 Until the backend exists, submitting a form will show the error state —
