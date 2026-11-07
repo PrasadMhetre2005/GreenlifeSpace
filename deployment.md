@@ -61,7 +61,7 @@ CORS_ALLOWED_ORIGINS=https://greenlife-spaces.vercel.app,https://www.example.com
 
 Use the configured Supabase connection username as `DATABASE_USERNAME`; with the pooler, this may include the project reference. Keep `DATABASE_PASSWORD` and `ADMIN_API_KEY` private. Do not add either to the Next.js `NEXT_PUBLIC_*` variables or commit them to GitHub.
 
-Render supplies the `PORT` variable. The Spring Boot configuration already listens on `${PORT:8080}`, so do not hard-code a different port.
+Render supplies the `PORT` variable, which overrides the local default port (`8081`). Do not hard-code a port for the deployed service.
 
 ## 4. Verify the API
 
