@@ -1,7 +1,7 @@
 import type { StaticImageData } from "next/image";
 
 import glassDecorationView from "../photos/glass decoration veiw.jpg";
-import plantCareBoyImage from "../photos/plant care boy pic.jpg";
+import plantCareGirlImage from "../photos/plant care girl.jpeg";
 import waterThowingImage from "../photos/water thwoing.jpg";
 import threeWallPlant from "../photos/three wall plant.jpg";
 
