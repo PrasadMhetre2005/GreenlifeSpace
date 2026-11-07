@@ -1,8 +1,6 @@
-// Base URL of the Spring Boot backend. Set NEXT_PUBLIC_API_URL in
-// .env.local (and in Vercel's project env vars) once the backend is
-// deployed, e.g. https://greenlife-spaces-api.onrender.com
+// Local .env.local overrides this production fallback during development.
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8081";
+  process.env.NEXT_PUBLIC_API_URL ?? "https://greenlifespace-1.onrender.com";
 
 async function requestJSON<T>(path: string, options: RequestInit = {}): Promise<T> {
   let res: Response;
