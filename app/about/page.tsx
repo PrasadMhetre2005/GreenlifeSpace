@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import SectionHeading from "@/components/SectionHeading";
 import { StatBlock } from "@/components/Testimonial";
-import { stats } from "@/lib/data";
+import { projects, stats } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "About | Greenlife Spaces",
@@ -56,6 +56,55 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+
+      <section aria-labelledby="about-work-title" className="container-page mt-20 lg:mt-24">
+        <div className="flex flex-wrap items-end justify-between gap-5 border-t border-moss/15 pt-10">
+          <div>
+            <p className="specimen-tag">Our work</p>
+            <h2 id="about-work-title" className="mt-3 font-serif text-3xl text-ink sm:text-4xl">
+              A few spaces we care for
+            </h2>
+          </div>
+          <a
+            href="/our-work"
+            className="inline-flex w-fit items-center gap-3 border-b border-moss pb-2 text-sm text-moss transition-colors hover:text-moss-dark"
+          >
+            Explore all projects <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <a
+              key={`${project.client}-${project.location}`}
+              href="/our-work"
+              className="group overflow-hidden rounded-xl border border-moss/15 bg-white/45 transition-transform duration-300 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-moss"
+            >
+              <div className="relative aspect-[4/3] overflow-hidden bg-sage/30">
+                {project.image && (
+                  <Image
+                    src={project.image}
+                    alt={`${project.client} greenery project in ${project.location}`}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                )}
+              </div>
+              <div className="p-4">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-moss">
+                  {project.location}
+                </p>
+                <h3 className="mt-2 font-serif text-xl text-ink">{project.client}</h3>
+                <p className="mt-1 text-xs text-ink/55">{project.duration}</p>
+                <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink/70">
+                  {project.summary}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
 
       <div className="container-page mt-24 border-t border-moss/15 pt-14">
         <SectionHeading eyebrow="How we work" title="A few things we hold to" />

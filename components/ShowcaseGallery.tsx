@@ -3,8 +3,11 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getJSON } from "@/lib/api";
-import type { Project } from "@/lib/data";
+import { projects, type Project } from "@/lib/data";
 import glassDecorationView from "../photos/glass decoration veiw.jpg";
+import plantCareGirlImage from "../photos/plant care girl.jpeg";
+import waterThowingImage from "../photos/water thwoing.jpg";
+import threeWallPlant from "../photos/three wall plant.jpg";
 
 type ShowcaseRecord = {
   id: string;
@@ -20,24 +23,38 @@ function formatService(slug: string) {
   return slug.split("-").map((word) => word[0].toUpperCase() + word.slice(1)).join(" ");
 }
 
+function imageForProject(record: ShowcaseRecord): Project["image"] {
+  if (record.services.includes("plant-maintenance")) return plantCareGirlImage;
+  if (record.services.includes("plant-styling")) return threeWallPlant;
+  if (record.services.includes("event-styling")) return waterThowingImage;
+  if (record.visualTone === "sage") return threeWallPlant;
+  if (record.visualTone === "ochre") return waterThowingImage;
+  return glassDecorationView;
+}
+
 export default function ShowcaseGallery() {
-  const [items, setItems] = useState<Project[]>([]);
+  const [items, setItems] = useState<Project[]>(projects);
   const [filter, setFilter] = useState("All");
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     getJSON<ShowcaseRecord[]>("/api/showcase")
-      .then((records) => setItems(records.map((record) => ({
-        client: record.clientName,
-        location: record.location,
-        duration: record.duration,
-        summary: record.summary,
-        servicesPerformed: record.services.map(formatService),
-        tone: record.visualTone,
-      }))))
-      .catch(() => setError("The showcase could not be loaded. Please try again later."))
-      .finally(() => setLoading(false));
+      .then((records) => {
+        setItems(records.length > 0 ? records.map((record) => ({
+          client: record.clientName,
+          location: record.location,
+          duration: record.duration,
+          summary: record.summary,
+          servicesPerformed: record.services.map(formatService),
+          image: imageForProject(record),
+          tone: record.visualTone,
+        })) : projects);
+        setError("");
+      })
+      .catch(() => {
+        setItems(projects);
+        setError("Showing featured projects while the live gallery reconnects.");
+      });
   }, []);
 
   const filters = ["All", ...Array.from(new Set(items.flatMap((item) => item.servicesPerformed)))];
@@ -53,9 +70,8 @@ export default function ShowcaseGallery() {
         ))}
       </div>
       <div className="mt-8 grid gap-12 sm:grid-cols-3">
-        {loading && <p className="text-sm text-ink/60">Loading projects...</p>}
-        {!loading && error && <p role="alert" className="text-sm text-red-700">{error}</p>}
-        {!loading && !error && visible.length === 0 && <p className="text-sm text-ink/60">No published projects yet.</p>}
+        {error && <p role="status" className="text-sm text-ink/55 sm:col-span-3">{error}</p>}
+        {visible.length === 0 && !error && <p className="text-sm text-ink/60">No published projects yet.</p>}
         {visible.map((project) => (
           <article key={`${project.client}-${project.location}`}>
             <div className="overflow-hidden rounded-2xl border border-moss/10 bg-sage/10">
